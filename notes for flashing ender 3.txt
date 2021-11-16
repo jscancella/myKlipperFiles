@@ -1,0 +1,20 @@
+basically followed from https://www.fission3d.com/post/flash-bootloader-and-install-firmware-with-raspberry-pi
+
+DO NOT CONNECT BLUE WIRE! Magic smoke will come out!!!!!
+blue - vcc
+green - ground
+yellow - reset
+orange - MISO
+red - MOSI
+brown - SCK
+
+
+sudo service klipper stop
+make clean
+make menuconfig
+make
+cp out/klipper.elf.hex .
+sudo avrdude -p atmega1284p -b 57600 -C avrdude_gpio.conf -c pi_1 –v 
+	MAKE SURE THIS COMPLETES OK. IF NOT IT IS A WIRING ISSUE!
+sudo avrdude -p atmega1284p -C avrdude_gpio.conf -c pi_1 -v -U flash:w:klipper.elf.hex:i
+sudo service klipper start
